@@ -1,0 +1,17 @@
+[package]
+name = "vcd-oxide-parser"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+pest = "2.0"
+pest_derive = "2.0"
+
+[dev-dependencies]
+insta = "1.8.0"
+
+[profile.dev.package.insta]
+opt-level = 3
+
+[profile.dev.package.similar]
+opt-level = 3

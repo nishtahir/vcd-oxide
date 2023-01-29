@@ -1,0 +1,54 @@
+---
+source: vcd-oxide-parser/src/lib.rs
+assertion_line: 21
+expression: file.unwrap()
+---
+[
+    Pair {
+        rule: value_change_dump_definitions,
+        span: Span {
+            str: "$date\n\tFri Jan 27 10:13:28 2023\n$end",
+            start: 0,
+            end: 36,
+        },
+        inner: [
+            Pair {
+                rule: declaration_command,
+                span: Span {
+                    str: "$date\n\tFri Jan 27 10:13:28 2023\n$end",
+                    start: 0,
+                    end: 36,
+                },
+                inner: [
+                    Pair {
+                        rule: declaration_keyword,
+                        span: Span {
+                            str: "$date",
+                            start: 0,
+                            end: 5,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: command,
+                        span: Span {
+                            str: "Fri Jan 27 10:13:28 2023",
+                            start: 7,
+                            end: 31,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: end,
+                        span: Span {
+                            str: "$end",
+                            start: 32,
+                            end: 36,
+                        },
+                        inner: [],
+                    },
+                ],
+            },
+        ],
+    },
+]

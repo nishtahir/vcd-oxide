@@ -1,0 +1,44 @@
+WHITESPACE = _{ " " | "\t" | NEWLINE }
+value_change_dump_definitions = { SOI ~ (declaration_command | simulation_command )* ~ EOI }
+declaration_command = { declaration_keyword ~ command_text* ~ end }
+command_text = { (!(end) ~ ANY)+ }
+comment_text = { (!(end) ~ ANY)+ }
+declaration_keyword = { 
+	"$comment" 
+    | "$date" 
+    | "$enddefinitions" 
+    | "$scope" 
+    | "$timescale" 
+    | "$upscope"
+    | "$var" 
+    | "$version" 
+}
+simulation_command = { 
+	(simulation_keyword ~ value_change+ ~ end)
+    | ("$comment" ~ comment_text ~ end)
+    | simulation_time
+    | value_change
+}
+simulation_keyword = {
+	"$dumpall" 
+    | "$dumpoff" 
+    | "$dumpon" 
+    | "$dumpvars"
+}
+simulation_time  = { "#" ~ decimal_number }
+decimal_number = { 
+	unsigned_number
+	| ("'" ~ ("s" | "S")? ~ ("d" | "D")) 
+}
+unsigned_number = @{ ('0'..'9') ~ (('0'..'9') | "_")* }
+value_change = { scalar_value_change | vector_value_change }
+scalar_value_change = { value ~ identifier_code }
+vector_value_change = { 
+	(("b" | "B") ~ binary_value ~ identifier_code) 
+    | ("r" | "R") 
+}
+binary_value = @{ value ~ ( "_" | value )* }
+value = { "0" | "1" | "x" | "X" | "z" | "Z" }
+identifier_code = @{ identifier_char+ }
+identifier_char =  { !(WHITESPACE) ~ ASCII }
+end = { "$end" }

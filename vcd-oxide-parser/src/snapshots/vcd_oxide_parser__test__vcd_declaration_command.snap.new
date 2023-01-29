@@ -1,0 +1,137 @@
+---
+source: vcd-oxide-parser/src/lib.rs
+assertion_line: 21
+expression: file.unwrap()
+---
+[
+    Pair {
+        rule: value_change_dump_definitions,
+        span: Span {
+            str: "$date\n\tFri Jan 27 10:13:28 2023\n$end\n$version\n\tIcarus Verilog\n$end\n$timescale\n\t1s\n$end",
+            start: 0,
+            end: 86,
+        },
+        inner: [
+            Pair {
+                rule: declaration_command,
+                span: Span {
+                    str: "$date\n\tFri Jan 27 10:13:28 2023\n$end",
+                    start: 0,
+                    end: 36,
+                },
+                inner: [
+                    Pair {
+                        rule: declaration_keyword,
+                        span: Span {
+                            str: "$date",
+                            start: 0,
+                            end: 5,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: command_text,
+                        span: Span {
+                            str: "Fri Jan 27 10:13:28 2023",
+                            start: 7,
+                            end: 31,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: end,
+                        span: Span {
+                            str: "$end",
+                            start: 32,
+                            end: 36,
+                        },
+                        inner: [],
+                    },
+                ],
+            },
+            Pair {
+                rule: declaration_command,
+                span: Span {
+                    str: "$version\n\tIcarus Verilog\n$end",
+                    start: 37,
+                    end: 66,
+                },
+                inner: [
+                    Pair {
+                        rule: declaration_keyword,
+                        span: Span {
+                            str: "$version",
+                            start: 37,
+                            end: 45,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: command_text,
+                        span: Span {
+                            str: "Icarus Verilog",
+                            start: 47,
+                            end: 61,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: end,
+                        span: Span {
+                            str: "$end",
+                            start: 62,
+                            end: 66,
+                        },
+                        inner: [],
+                    },
+                ],
+            },
+            Pair {
+                rule: declaration_command,
+                span: Span {
+                    str: "$timescale\n\t1s\n$end",
+                    start: 67,
+                    end: 86,
+                },
+                inner: [
+                    Pair {
+                        rule: declaration_keyword,
+                        span: Span {
+                            str: "$timescale",
+                            start: 67,
+                            end: 77,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: command_text,
+                        span: Span {
+                            str: "1s",
+                            start: 79,
+                            end: 81,
+                        },
+                        inner: [],
+                    },
+                    Pair {
+                        rule: end,
+                        span: Span {
+                            str: "$end",
+                            start: 82,
+                            end: 86,
+                        },
+                        inner: [],
+                    },
+                ],
+            },
+            Pair {
+                rule: EOI,
+                span: Span {
+                    str: "",
+                    start: 86,
+                    end: 86,
+                },
+                inner: [],
+            },
+        ],
+    },
+]
