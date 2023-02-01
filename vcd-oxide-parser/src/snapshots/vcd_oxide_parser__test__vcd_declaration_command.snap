@@ -1,0 +1,52 @@
+---
+source: vcd-oxide-parser/src/lib.rs
+assertion_line: 155
+expression: ast
+---
+ValueChangeDumpDefinition {
+    declaration_commands: [
+        DeclarationCommand {
+            ty: Date,
+            value: "Fri Jan 27 10:13:28 2023",
+        },
+        DeclarationCommand {
+            ty: Version,
+            value: "Icarus Verilog",
+        },
+        DeclarationCommand {
+            ty: Timescale,
+            value: "1s",
+        },
+        DeclarationCommand {
+            ty: Scope,
+            value: "module NextCoreTest",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 32 ! io_uart_io_reg [31:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 32 \" io_uart_csr_reg [31:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 32 # io_gpio_io_reg [31:0]",
+        },
+    ],
+    simulation_commands: [
+        KeywordCommand(
+            SimulationKeywordCommand {
+                ty: DumpAll,
+                value_changes: [
+                    Vector(
+                        VectorValueChange,
+                    ),
+                    Vector(
+                        VectorValueChange,
+                    ),
+                ],
+            },
+        ),
+    ],
+}

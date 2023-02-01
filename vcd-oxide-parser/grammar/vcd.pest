@@ -1,5 +1,6 @@
 WHITESPACE = _{ " " | "\t" | NEWLINE }
-value_change_dump_definitions = { SOI ~ (declaration_command | simulation_command )* ~ EOI }
+file = _ {SOI ~ value_change_dump_definitions ~ EOI }
+value_change_dump_definitions = { (declaration_command | simulation_command )* }
 declaration_command = { declaration_keyword ~ command_text* ~ end }
 command_text = { (!(end) ~ ANY)+ }
 comment_text = { (!(end) ~ ANY)+ }
@@ -14,17 +15,27 @@ declaration_keyword = {
     | "$version" 
 }
 simulation_command = { 
-	(simulation_keyword ~ value_change+ ~ end)
-    | ("$comment" ~ comment_text ~ end)
+	simulation_keyword_command
+    | simulation_keyword_comment
     | simulation_time
     | value_change
 }
+
+simulation_keyword_command = {
+	simulation_keyword ~ value_change+ ~ end
+}
+
 simulation_keyword = {
-	"$dumpall" 
+    "$dumpall" 
     | "$dumpoff" 
     | "$dumpon" 
     | "$dumpvars"
 }
+
+simulation_keyword_comment = {
+    ("$comment" ~ comment_text ~ end)
+}
+
 simulation_time  = { "#" ~ decimal_number }
 decimal_number = { 
 	unsigned_number
@@ -41,4 +52,4 @@ binary_value = @{ value ~ ( "_" | value )* }
 value = { "0" | "1" | "x" | "X" | "z" | "Z" }
 identifier_code = @{ identifier_char+ }
 identifier_char =  { !(WHITESPACE) ~ ASCII }
-end = { "$end" }
+end = _{ "$end" }

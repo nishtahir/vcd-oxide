@@ -7,3 +7,11 @@ $end
 $timescale
 	1s
 $end
+$scope module NextCoreTest $end
+$var wire 32 ! io_uart_io_reg [31:0] $end
+$var wire 32 " io_uart_csr_reg [31:0] $end
+$var wire 32 # io_gpio_io_reg [31:0] $end
+$dumpall
+b10000 M#
+b1000 J#
+$end
