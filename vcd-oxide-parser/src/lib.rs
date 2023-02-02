@@ -99,10 +99,10 @@ fn visit_vector_value_change(rule: Pair<Rule>) -> SimulationValueChange {
 }
 
 fn visit_declaration_command(rule: Pair<Rule>) -> DeclarationCommand {
-    let mut inner = rule.into_inner();
+    let mut inner = rule.clone().into_inner();
     let declaration_keyword = inner.next().unwrap();
     let declaration_keyword = visit_declaration_keyword(declaration_keyword);
-    let command_text = inner.next().unwrap();
+    let command_text = inner.next();
     let command_text = visit_command_text(command_text);
 
     DeclarationCommand {
@@ -126,20 +126,18 @@ fn visit_declaration_keyword(rule: Pair<Rule>) -> DeclarationType {
     }
 }
 
-fn visit_command_text(rule: Pair<Rule>) -> String {
-    return rule.as_str().to_owned();
+fn visit_command_text(rule: Option<Pair<Rule>>) -> String {
+    return rule.map_or("", |r| r.as_str()).to_owned();
 }
 
 fn parse(input: &str) -> ValueChangeDumpDefinition {
-    let mut file = ValueChangeDumpParser::parse(Rule::file, input).unwrap();
-    // top level is an array.
-    // grab the initial rule
-    let value_change_dump_definitions = file.next().unwrap();
-    match value_change_dump_definitions.as_rule() {
+    let mut root = ValueChangeDumpParser::parse(Rule::file, input).unwrap();
+    let inner = root.next().unwrap();
+    match inner.as_rule() {
         Rule::value_change_dump_definitions => {
-            visit_value_change_dump_definitions(value_change_dump_definitions)
+            visit_value_change_dump_definitions(inner)
         }
-        _ => unreachable!("{:#?}", value_change_dump_definitions),
+        _ => unreachable!("{:#?}", inner),
     }
 }
 
@@ -153,5 +151,12 @@ mod test {
         let declerations = include_str!("../test/declaration_command.vcd.test");
         let ast = parse(declerations);
         assert_debug_snapshot!(ast)
+    }
+
+    #[test]
+    fn test_large_vcd_file() {
+        let declerations = include_str!("../test/NextCoreTest.vcd");
+        let ast = parse(declerations);
+        // assert_debug_snapshot!(ast)
     }
 }
