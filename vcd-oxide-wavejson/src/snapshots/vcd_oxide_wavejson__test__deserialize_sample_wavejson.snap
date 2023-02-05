@@ -1,0 +1,97 @@
+---
+source: vcd-oxide-wavejson/src/lib.rs
+assertion_line: 16
+expression: wave
+---
+WaveJson {
+    signal: [
+        Signal {
+            name: Some(
+                "pclk",
+            ),
+            wave: Some(
+                "p.......",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "Pclk",
+            ),
+            wave: Some(
+                "P.......",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "nclk",
+            ),
+            wave: Some(
+                "n.......",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "Nclk",
+            ),
+            wave: Some(
+                "N.......",
+            ),
+            data: None,
+        },
+        Signal {
+            name: None,
+            wave: None,
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "clk0",
+            ),
+            wave: Some(
+                "phnlPHNL",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "clk1",
+            ),
+            wave: Some(
+                "xhlhLHl.",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "clk2",
+            ),
+            wave: Some(
+                "hpHplnLn",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "clk3",
+            ),
+            wave: Some(
+                "nhNhplPl",
+            ),
+            data: None,
+        },
+        Signal {
+            name: Some(
+                "clk4",
+            ),
+            wave: Some(
+                "xlh.L.Hx",
+            ),
+            data: None,
+        },
+    ],
+    head: Head,
+    foot: Foot,
+}
