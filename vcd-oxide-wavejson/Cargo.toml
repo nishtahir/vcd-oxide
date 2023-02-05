@@ -6,9 +6,10 @@ edition = "2021"
 [dependencies]
 serde = { version = "1.0.152", features = ["derive"] }
 serde_json = "1.0.92"
+vcd-oxide-core = { path = "../vcd-oxide-core" }
 
 [dev-dependencies]
-insta = "1.8.0"
+insta = { version = "1.8.0", features = ["json"] }
 
 [profile.dev.package.insta]
 opt-level = 3

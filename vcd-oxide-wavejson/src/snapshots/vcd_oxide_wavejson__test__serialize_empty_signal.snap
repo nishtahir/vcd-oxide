@@ -1,0 +1,8 @@
+---
+source: vcd-oxide-wavejson/src/lib.rs
+assertion_line: 44
+expression: wave_json
+---
+{
+  "signal": []
+}

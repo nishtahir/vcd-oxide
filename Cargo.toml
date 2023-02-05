@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "vcd-oxide-core",
     "vcd-oxide-parser",
     "vcd-oxide-wavejson"
 ]

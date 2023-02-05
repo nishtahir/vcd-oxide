@@ -3,18 +3,19 @@ use serde::{Serialize, Deserialize};
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WaveJson {
-    pub signal: Vec<Signal>,
+    pub signal: Vec<WaveJsonSignal>,
     #[serde(skip)]
-    pub head: Head,
+    pub head: Option<Head>,
     #[serde(skip)]
-    pub foot: Foot,
+    pub foot: Option<Foot>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Signal {
+pub struct WaveJsonSignal {
     pub name: Option<String>,
     pub wave: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub data: Option<String>,
 }
 
