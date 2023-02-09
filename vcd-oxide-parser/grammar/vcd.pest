@@ -45,11 +45,13 @@ unsigned_number = @{ ('0'..'9') ~ (('0'..'9') | "_")* }
 value_change = { scalar_value_change | vector_value_change }
 scalar_value_change = { value ~ identifier_code }
 vector_value_change = { 
-	(("b" | "B") ~ binary_value ~ identifier_code) 
-    | ("r" | "R") 
+	(binary_value ~ identifier_code) | (real_value ~ identifier_code)
 }
-binary_value = @{ value ~ ( "_" | value )* }
+real_value = { ("r" | "R") ~ unsigned_value }
+unsigned_value = @{ digit ~ ("_" | digit) }
+binary_value = @{ ("b" | "B") ~ value ~ ( "_" | value )* }
 value = { "0" | "1" | "x" | "X" | "z" | "Z" }
+digit = { '0'..'9' }
 identifier_code = @{ identifier_char+ }
 identifier_char =  { !(WHITESPACE) ~ ASCII }
 end = _{ "$end" }

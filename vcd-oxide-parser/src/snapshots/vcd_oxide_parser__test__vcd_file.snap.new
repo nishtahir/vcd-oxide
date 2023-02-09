@@ -1,0 +1,464 @@
+---
+source: vcd-oxide-parser/src/lib.rs
+assertion_line: 174
+expression: ast
+---
+ValueChangeDumpDefinition {
+    declaration_commands: [
+        DeclarationCommand {
+            ty: Date,
+            value: "Fri Jan 27 10:13:28 2023",
+        },
+        DeclarationCommand {
+            ty: Version,
+            value: "Icarus Verilog",
+        },
+        DeclarationCommand {
+            ty: Timescale,
+            value: "1s",
+        },
+        DeclarationCommand {
+            ty: Scope,
+            value: "module UartRxTest",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 8 ! data [7:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 \" clk",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 # rst",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 $ uart_rx",
+        },
+        DeclarationCommand {
+            ty: Scope,
+            value: "module uart_rx_uut",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 1 \" clk",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 1 % read",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 1 # rst",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 1 $ uart_rx",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 8 & data [7:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "wire 1 ' busy",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 32 ( BAUD",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 32 ) CLK_FREQUENCY_HZ",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 64 * DIV_COUNTER",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 32 + DIV_PER_BIT",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 32 , DIV_SAMPLE",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 64 - MAX_BAUD_COUNTER",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "parameter 32 . MID_POINT",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 2 / baud_counter [1:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 4 0 bit_counter [3:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 1 clear_bit",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 2 clear_sample",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 10 3 data_register [9:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 4 inc_bit",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 5 inc_sample",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 2 6 next_state [1:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 2 7 sample_counter [1:0]",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 1 8 shift",
+        },
+        DeclarationCommand {
+            ty: Var,
+            value: "reg 2 9 state [1:0]",
+        },
+        DeclarationCommand {
+            ty: Upscope,
+            value: "",
+        },
+        DeclarationCommand {
+            ty: Upscope,
+            value: "",
+        },
+        DeclarationCommand {
+            ty: EndDefinitions,
+            value: "",
+        },
+        DeclarationCommand {
+            ty: Comment,
+            value: "Show the parameter values.",
+        },
+    ],
+    simulation_commands: [
+        KeywordCommand(
+            SimulationKeywordCommand {
+                ty: DumpAll,
+                value_changes: [
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b10",
+                                identifier_code: ".",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b10",
+                                identifier_code: "-",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b100",
+                                identifier_code: ",",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b1010",
+                                identifier_code: "+",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b10",
+                                identifier_code: "*",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b1100100",
+                                identifier_code: ")",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b1010",
+                                identifier_code: "(",
+                            },
+                        ),
+                    ),
+                ],
+            },
+        ),
+        SimulationTime,
+        KeywordCommand(
+            SimulationKeywordCommand {
+                ty: DumpVars,
+                value_changes: [
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b10",
+                                identifier_code: "9",
+                            },
+                        ),
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "x",
+                            identifier_code: "8",
+                        },
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b0",
+                                identifier_code: "7",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b10",
+                                identifier_code: "6",
+                            },
+                        ),
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "x",
+                            identifier_code: "5",
+                        },
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "x",
+                            identifier_code: "4",
+                        },
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b0",
+                                identifier_code: "3",
+                            },
+                        ),
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "x",
+                            identifier_code: "2",
+                        },
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "x",
+                            identifier_code: "1",
+                        },
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b0",
+                                identifier_code: "0",
+                            },
+                        ),
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b0",
+                                identifier_code: "/",
+                            },
+                        ),
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "0",
+                            identifier_code: "'",
+                        },
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b0",
+                                identifier_code: "&",
+                            },
+                        ),
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "z",
+                            identifier_code: "%",
+                        },
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "1",
+                            identifier_code: "$",
+                        },
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "1",
+                            identifier_code: "#",
+                        },
+                    ),
+                    Scalar(
+                        ScalarValueChange {
+                            value: "0",
+                            identifier_code: "\"",
+                        },
+                    ),
+                    Vector(
+                        Binary(
+                            BinaryVectorValueChange {
+                                value: "b0",
+                                identifier_code: "!",
+                            },
+                        ),
+                    ),
+                ],
+            },
+        ),
+        SimulationTime,
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "4",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "1",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "5",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "2",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "8",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "1",
+                    identifier_code: "\"",
+                },
+            ),
+        ),
+        SimulationTime,
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "\"",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "$",
+                },
+            ),
+        ),
+        SimulationTime,
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "1",
+                    identifier_code: "\"",
+                },
+            ),
+        ),
+        SimulationTime,
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "\"",
+                },
+            ),
+        ),
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "1",
+                    identifier_code: "$",
+                },
+            ),
+        ),
+        SimulationTime,
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "1",
+                    identifier_code: "\"",
+                },
+            ),
+        ),
+        SimulationTime,
+        ValueChange(
+            Scalar(
+                ScalarValueChange {
+                    value: "0",
+                    identifier_code: "\"",
+                },
+            ),
+        ),
+    ],
+}

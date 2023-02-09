@@ -62,6 +62,19 @@ pub struct ScalarValueChange {
 }
 
 #[derive(Debug)]
-pub struct VectorValueChange {
+pub enum VectorValueChange {
+    Binary(BinaryVectorValueChange),
+    Real(RealVectorValueChange)
+}
 
+#[derive(Debug)]
+pub struct BinaryVectorValueChange {
+    pub value: String,
+    pub identifier_code: String
+}
+
+#[derive(Debug)]
+pub struct RealVectorValueChange {
+    pub value: String,
+    pub identifier_code: String
 }

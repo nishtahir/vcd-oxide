@@ -1,10 +1,7 @@
 mod types;
 
-use std::str::FromStr;
-
 use types::WaveJsonSignal;
 use vcd_oxide_core::{Signal, EdgeDirection::{Positive, Negative}};
-
 use crate::types::WaveJson;
 
 impl From<Signal> for WaveJsonSignal {
@@ -67,4 +64,5 @@ mod test {
 
         assert_json_snapshot!(wave_json);
     }
+
 }

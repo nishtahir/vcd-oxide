@@ -6,7 +6,7 @@ extern crate pest_derive;
 use crate::ast::{
     DeclarationCommand, DeclarationType, ScalarValueChange, SimulationCommand, SimulationComment,
     SimulationKeywordCommand, SimulationType, SimulationValueChange, ValueChangeDumpDefinition,
-    VectorValueChange,
+    VectorValueChange,RealVectorValueChange,BinaryVectorValueChange
 };
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
@@ -88,14 +88,30 @@ fn visit_value_change(rule: Pair<Rule>) -> SimulationValueChange {
 }
 
 fn visit_scalar_value_change(rule: Pair<Rule>) -> SimulationValueChange {
+    let mut inner = rule.into_inner();
+    let value = inner.next().unwrap();
+    let identifier_code = inner.next().unwrap();
     SimulationValueChange::Scalar(ScalarValueChange {
-        value: "".to_owned(),
-        identifier_code: "".to_owned(),
+        value: value.as_str().to_owned(),
+        identifier_code: identifier_code.as_str().to_owned(),
     })
 }
 
 fn visit_vector_value_change(rule: Pair<Rule>) -> SimulationValueChange {
-    SimulationValueChange::Vector(VectorValueChange {})
+    let mut inner = rule.into_inner();
+    let value = inner.next().unwrap();
+    let identifier_code = inner.next().unwrap();
+    SimulationValueChange::Vector(match value.as_rule() {
+        Rule::real_value => VectorValueChange::Real(RealVectorValueChange {
+            value: value.as_str().to_owned(),
+            identifier_code: identifier_code.as_str().to_owned(),
+        }),
+        Rule::binary_value => VectorValueChange::Binary(BinaryVectorValueChange {
+            value: value.as_str().to_owned(),
+            identifier_code: identifier_code.as_str().to_owned(),
+        }),
+        _ => unreachable!("{:#?}", inner),
+    })
 }
 
 fn visit_declaration_command(rule: Pair<Rule>) -> DeclarationCommand {
@@ -134,9 +150,7 @@ fn parse(input: &str) -> ValueChangeDumpDefinition {
     let mut root = ValueChangeDumpParser::parse(Rule::file, input).unwrap();
     let inner = root.next().unwrap();
     match inner.as_rule() {
-        Rule::value_change_dump_definitions => {
-            visit_value_change_dump_definitions(inner)
-        }
+        Rule::value_change_dump_definitions => visit_value_change_dump_definitions(inner),
         _ => unreachable!("{:#?}", inner),
     }
 }
@@ -154,9 +168,17 @@ mod test {
     }
 
     #[test]
+    fn test_vcd_file() {
+        let declerations = include_str!("../test/UartRxTest.vcd");
+        let ast = parse(declerations);
+        assert_debug_snapshot!(ast)
+    }
+
+    #[test]
+    #[ignore = "Runs for > 350s. Requires parser rewrite to be reasonable"]
     fn test_large_vcd_file() {
         let declerations = include_str!("../test/NextCoreTest.vcd");
         let ast = parse(declerations);
-        // assert_debug_snapshot!(ast)
+        assert_debug_snapshot!(ast)
     }
 }
