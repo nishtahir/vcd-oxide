@@ -7,17 +7,10 @@ declaration_command = {
     | vcd_declaration_date
     | vcd_declaration_enddefinitions
     | vcd_declaration_scope
-    | (declaration_keyword ~ command_text* ~ end)
+    | vcd_declaration_timescale
+    | vcd_declaration_upscope
+    | vcd_declaration_version
 }
-
-declaration_keyword = {
-    "$timescale"
-    | "$upscope"
-    | "$version"
-}
-
-// Generic arbitrary text
-command_text = { (!(end) ~ ANY)+ }
 
 // 18.2.3.1 $comment
 // The $comment section provides a means of inserting a comment in the VCD file.
@@ -46,6 +39,25 @@ scope_type = {
     | "task"
 }
 scope_identifier = { identifier }
+
+// 18.2.3.5 $timescale
+// The $timescale keyword specifies what timescale was used for the simulation.
+// The syntax for the keyword is given in Syntax 18-13.
+vcd_declaration_timescale = { "$timescale" ~ time_number ~ time_unit ~ end }
+time_number = { unsigned_number }
+time_unit = {
+    "s"
+    | "ms"
+    | "us"
+    | "ns"
+    | "ps"
+    | "fs"
+}
+
+// 18.2.3.6 $upscope
+// The $upscope section indicates a change of scope to the next higher level in the design hierarchy.
+// The syntax for the section is given in Syntax 18-14.
+vcd_declaration_upscope = { "$upscope" ~ end }
 
 // 18.2.3.7 $var
 // The $var section prints the names and identifier codes of the variables being dumped.
@@ -76,8 +88,15 @@ reference = { identifier ~ ("[" ~ (bit_select_index) ~ "]")* }
 identifier = { simple_identifier }
 bit_select_index = { (digit ~ (":" ~  digit)?) }
 
+// 18.2.3.8 $version
+// The $version section indicates which version of the VCD writer was used to
+// produce the VCD file and the $dumpfile system task used to create the file.
+// If a variable or an expression was used to specify the filename within $dumpfile,
+// the unevaluated variable or expression literal shall appear in the $version string.
+// The syntax for the $version section is given in Syntax 18-16.
+vcd_declaration_version = { "$version" ~ command_text ~ end }
 
-simulation_command = { 
+simulation_command = {
 	simulation_keyword_command
     | simulation_keyword_comment
     | simulation_time
@@ -89,9 +108,9 @@ simulation_keyword_command = {
 }
 
 simulation_keyword = {
-    "$dumpall" 
-    | "$dumpoff" 
-    | "$dumpon" 
+    "$dumpall"
+    | "$dumpoff"
+    | "$dumpon"
     | "$dumpvars"
 }
 
@@ -100,14 +119,18 @@ simulation_keyword_comment = {
 }
 
 simulation_time  = { "#" ~ decimal_number }
-decimal_number = { 
+
+// Generic arbitrary text
+command_text = { (!(end) ~ ANY)+ }
+
+decimal_number = {
 	unsigned_number
-	| ("'" ~ ("s" | "S")? ~ ("d" | "D")) 
+	| ("'" ~ ("s" | "S")? ~ ("d" | "D"))
 }
 unsigned_number = @{ ('0'..'9') ~ (('0'..'9') | "_")* }
 value_change = { scalar_value_change | vector_value_change }
 scalar_value_change = { value ~ identifier_code }
-vector_value_change = { 
+vector_value_change = {
 	(binary_value ~ identifier_code) | (real_value ~ identifier_code)
 }
 real_value = { ("r" | "R") ~ unsigned_value }
