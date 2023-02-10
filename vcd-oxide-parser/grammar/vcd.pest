@@ -1,19 +1,82 @@
 WHITESPACE = _{ " " | "\t" | NEWLINE }
 file = _ {SOI ~ value_change_dump_definitions ~ EOI }
 value_change_dump_definitions = { (declaration_command | simulation_command )* }
-declaration_command = { declaration_keyword ~ command_text* ~ end }
-command_text = { (!(end) ~ ANY)+ }
-comment_text = { (!(end) ~ ANY)+ }
-declaration_keyword = { 
-	"$comment" 
-    | "$date" 
-    | "$enddefinitions" 
-    | "$scope" 
-    | "$timescale" 
-    | "$upscope"
-    | "$var" 
-    | "$version" 
+declaration_command = {
+    vcd_declaration_vars
+    | vcd_declaration_comment
+    | vcd_declaration_date
+    | vcd_declaration_enddefinitions
+    | vcd_declaration_scope
+    | (declaration_keyword ~ command_text* ~ end)
 }
+
+declaration_keyword = {
+    "$timescale"
+    | "$upscope"
+    | "$version"
+}
+
+// Generic arbitrary text
+command_text = { (!(end) ~ ANY)+ }
+
+// 18.2.3.1 $comment
+// The $comment section provides a means of inserting a comment in the VCD file.
+// The syntax for the section is given in Syntax 18-9.
+vcd_declaration_comment = { "$comment" ~ command_text ~ end }
+
+// 18.2.3.2 $date
+// The $date section indicates the date on which the VCD file was generated.
+// The syntax for the section is given in Syntax 18-10.
+vcd_declaration_date = { "$date" ~ command_text ~ end }
+
+// 18.2.3.3 $enddefinitions
+// The $enddefinitions section marks the end of the header information and definitions.
+// The syntax for the section is given in Syntax 18-11..
+vcd_declaration_enddefinitions = { "$enddefinitions" ~ end }
+
+// 18.2.3.4 $scope
+// The $scope section defines the scope of the variables being dumped.
+// The syntax for the section is given in Syntax 18-12.
+vcd_declaration_scope = { "$scope" ~ scope_type ~ scope_identifier ~ end }
+scope_type = {
+    "begin"
+    | "fork"
+    | "function"
+    | "module"
+    | "task"
+}
+scope_identifier = { identifier }
+
+// 18.2.3.7 $var
+// The $var section prints the names and identifier codes of the variables being dumped.
+// The syntax for the section is given in Syntax 18-15.
+vcd_declaration_vars = { "$var" ~ var_type ~ size ~ identifier_code ~  reference ~ end }
+var_type = {
+    "event"
+    | "integer"
+    | "parameter"
+    | "real"
+    | "realtime"
+    | "reg"
+    | "supply0"
+    | "supply1"
+    | "time"
+    | "tri"
+    | "triand"
+    | "trior"
+    | "trireg"
+    | "tri0"
+    | "tri1"
+    | "wand"
+    | "wire"
+    | "wor"
+}
+size = { decimal_number }
+reference = { identifier ~ ("[" ~ (bit_select_index) ~ "]")* }
+identifier = { simple_identifier }
+bit_select_index = { (digit ~ (":" ~  digit)?) }
+
+
 simulation_command = { 
 	simulation_keyword_command
     | simulation_keyword_comment
@@ -33,7 +96,7 @@ simulation_keyword = {
 }
 
 simulation_keyword_comment = {
-    ("$comment" ~ comment_text ~ end)
+    ("$comment" ~ command_text ~ end)
 }
 
 simulation_time  = { "#" ~ decimal_number }
@@ -48,10 +111,15 @@ vector_value_change = {
 	(binary_value ~ identifier_code) | (real_value ~ identifier_code)
 }
 real_value = { ("r" | "R") ~ unsigned_value }
-unsigned_value = @{ digit ~ ("_" | digit) }
+unsigned_value = @{ digit ~ ("_" | digit)* }
 binary_value = @{ ("b" | "B") ~ value ~ ( "_" | value )* }
 value = { "0" | "1" | "x" | "X" | "z" | "Z" }
 digit = { '0'..'9' }
 identifier_code = @{ identifier_char+ }
 identifier_char =  { !(WHITESPACE) ~ ASCII }
+
+// escaped_identifier ::= \ {Any_ASCII_character_except_white_space} white_space
+// escaped_identifier = {simple_identifier}
+simple_identifier = @{ ('a'..'z' | 'A'..'Z' | "_") ~ ('a'..'z' | 'A'..'Z' | "_" | "$")* }
+
 end = _{ "$end" }
