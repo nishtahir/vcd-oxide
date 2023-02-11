@@ -3,11 +3,7 @@ mod ast;
 extern crate pest;
 extern crate pest_derive;
 
-use crate::ast::{
-    DeclarationCommand, DeclarationType, ScalarValueChange, SimulationCommand, SimulationComment,
-    SimulationKeywordCommand, SimulationType, SimulationValueChange, ValueChangeDumpDefinition,
-    VectorValueChange,RealVectorValueChange,BinaryVectorValueChange
-};
+use crate::ast::*;
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
 
@@ -73,7 +69,7 @@ fn visit_simulation_keyword(rule: Pair<Rule>) -> SimulationType {
 }
 
 fn visit_simulation_keyword_comment(rule: Pair<Rule>) -> SimulationCommand {
-    SimulationCommand::Comment(SimulationComment {
+    SimulationCommand::Comment(GenericComment {
         value: rule.as_str().to_owned(),
     })
 }
@@ -115,30 +111,83 @@ fn visit_vector_value_change(rule: Pair<Rule>) -> SimulationValueChange {
 }
 
 fn visit_declaration_command(rule: Pair<Rule>) -> DeclarationCommand {
-    let mut inner = rule.clone().into_inner();
-    let declaration_keyword = inner.next().unwrap();
-    let declaration_keyword = visit_declaration_keyword(declaration_keyword);
-    let command_text = inner.next();
-    let command_text = visit_command_text(command_text);
-
-    DeclarationCommand {
-        ty: declaration_keyword,
-        value: command_text,
+    let inner = rule.into_inner().next().unwrap();
+    match inner.as_rule() {
+        Rule::vcd_declaration_vars => DeclarationCommand::Var(visit_vcd_declaration_vars(inner)),
+        Rule::vcd_declaration_comment => {
+            DeclarationCommand::Comment(visit_vcd_declaration_comment(inner))
+        }
+        Rule::vcd_declaration_date => DeclarationCommand::Date(visit_vcd_declaration_date(inner)),
+        Rule::vcd_declaration_enddefinitions => DeclarationCommand::EndDefinitions,
+        Rule::vcd_declaration_scope => {
+            DeclarationCommand::Scope(visit_vcd_declaration_scope(inner))
+        }
+        Rule::vcd_declaration_timescale => {
+            DeclarationCommand::Timescale(visit_vcd_declaration_timescale(inner))
+        }
+        Rule::vcd_declaration_upscope => DeclarationCommand::Upscope,
+        Rule::vcd_declaration_version => {
+            DeclarationCommand::Version(visit_vcd_declaration_version(inner))
+        }
+        _ => unreachable!("{:#?}", inner),
     }
 }
 
-fn visit_declaration_keyword(rule: Pair<Rule>) -> DeclarationType {
-    let keyword = rule.as_str();
-    match keyword {
-        "$comment" => DeclarationType::Comment,
-        "$date" => DeclarationType::Date,
-        "$enddefinitions" => DeclarationType::EndDefinitions,
-        "$scope" => DeclarationType::Scope,
-        "$timescale" => DeclarationType::Timescale,
-        "$upscope" => DeclarationType::Upscope,
-        "$var" => DeclarationType::Var,
-        "$version" => DeclarationType::Version,
-        _ => unreachable!("{:#?}", rule),
+fn visit_vcd_declaration_date(rule: Pair<Rule>) -> DeclarationDate {
+    let inner = rule.into_inner().next().unwrap();
+    DeclarationDate {
+        value: inner.as_str().to_owned(),
+    }
+}
+
+fn visit_vcd_declaration_version(rule: Pair<Rule>) -> DeclarationVersion {
+    let inner = rule.into_inner().next().unwrap();
+    DeclarationVersion {
+        value: inner.as_str().to_owned(),
+    }
+}
+
+fn visit_vcd_declaration_timescale(rule: Pair<Rule>) -> DeclarationTimescale {
+    let mut inner = rule.into_inner();
+    let time_number = inner.next().unwrap().as_str().parse::<usize>().unwrap();
+    let time_unit = inner.next().unwrap().as_str().to_owned();
+
+    DeclarationTimescale {
+        time_number,
+        time_unit,
+    }
+}
+
+fn visit_vcd_declaration_scope(rule: Pair<Rule>) -> DeclarationScope {
+    let mut inner = rule.into_inner();
+    let scope_type = inner.next().unwrap().as_str().to_owned();
+    let scope_identifier = inner.next().unwrap().as_str().to_owned();
+
+    DeclarationScope {
+        scope_type,
+        scope_identifier,
+    }
+}
+
+fn visit_vcd_declaration_vars(rule: Pair<Rule>) -> DeclarationVar {
+    let mut inner = rule.into_inner();
+    let var_type = inner.next().unwrap().as_str().to_owned();
+    let size = inner.next().unwrap().as_str().parse::<usize>().unwrap();
+    let identifier_code = inner.next().unwrap().as_str().to_owned();
+    let reference = inner.next().unwrap().as_str().to_owned();
+
+    DeclarationVar {
+        var_type,
+        size,
+        identifier_code,
+        reference,
+    }
+}
+
+fn visit_vcd_declaration_comment(rule: Pair<Rule>) -> GenericComment {
+    let inner = rule.into_inner().next().unwrap();
+    GenericComment {
+        value: inner.as_str().to_owned(),
     }
 }
 

@@ -1,13 +1,13 @@
 file = _ {SOI ~ value_change_dump_definitions ~ EOI }
 value_change_dump_definitions = { (declaration_command | simulation_command )* }
 declaration_command = {
-    vcd_declaration_vars
-    | vcd_declaration_comment
+    vcd_declaration_comment
     | vcd_declaration_date
     | vcd_declaration_enddefinitions
     | vcd_declaration_scope
     | vcd_declaration_timescale
     | vcd_declaration_upscope
+    | vcd_declaration_vars
     | vcd_declaration_version
 }
 
