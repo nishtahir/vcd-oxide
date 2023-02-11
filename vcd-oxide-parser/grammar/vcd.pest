@@ -37,7 +37,7 @@ scope_type = {
     | "module"
     | "task"
 }
-scope_identifier = { identifier }
+scope_identifier = { system_function_identifier }
 
 // 18.2.3.5 $timescale
 // The $timescale keyword specifies what timescale was used for the simulation.
@@ -142,7 +142,8 @@ identifier_char =  { !(WHITESPACE) ~ ASCII }
 
 // escaped_identifier ::= \ {Any_ASCII_character_except_white_space} white_space
 // escaped_identifier = {simple_identifier}
-simple_identifier = @{ ('a'..'z' | 'A'..'Z' | "_") ~ ('a'..'z' | 'A'..'Z' | "_" | "$")* }
+simple_identifier = @{ ('a'..'z' | 'A'..'Z' | "_") ~ ('a'..'z' | 'A'..'Z' | '0' .. '9' | "_" | "$")* }
+system_function_identifier = @{ ('a'..'z' | 'A'..'Z' | '0' .. '9' | "_" | "$")+ }
 
 // Silenced tokens
 end = _{ "$end" }
