@@ -4,15 +4,11 @@ mod model;
 extern crate pest;
 extern crate pest_derive;
 
-use std::{
-    cell::RefCell,
-    rc::{Rc, Weak},
-};
-
 use crate::ast::*;
 use model::*;
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
+use std::{cell::RefCell, rc::Rc};
 
 #[derive(Parser, Debug)]
 #[grammar = "grammar/vcd.pest"]
@@ -249,10 +245,17 @@ impl ValueChangeDump {
                         .unwrap()
                         .upgrade()
                         .unwrap();
-                    // TODO - pop scope
                 }
-                DeclarationCommand::Var(_) => {
-                    // TODO
+                DeclarationCommand::Var(var) => {
+                    active_scope
+                        .borrow_mut()
+                        .signals
+                        .push(ValueChangeDumpSignal {
+                            kind: var.var_type.to_owned(),
+                            identifier: var.identifier_code.to_owned(),
+                            reference: var.reference.to_owned(),
+                            size: var.size,
+                        })
                 }
                 DeclarationCommand::Version(version) => dump.version = version.value,
             }
@@ -292,6 +295,14 @@ mod test {
     #[test]
     fn test_model() {
         let declerations = include_str!("../test/declaration_command.vcd.test");
+        let ast = parse(declerations);
+        let model = ValueChangeDump::fromDefinition(ast);
+        assert_debug_snapshot!(model)
+    }
+
+    #[test]
+    fn test_model_against_uart() {
+        let declerations = include_str!("../test/UartRxTest.vcd");
         let ast = parse(declerations);
         let model = ValueChangeDump::fromDefinition(ast);
         assert_debug_snapshot!(model)

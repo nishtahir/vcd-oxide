@@ -1,6 +1,6 @@
 ---
 source: vcd-oxide-parser/src/lib.rs
-assertion_line: 274
+assertion_line: 279
 expression: ast
 ---
 ValueChangeDumpDefinition {
@@ -19,6 +19,14 @@ ValueChangeDumpDefinition {
             DeclarationTimescale {
                 time_number: 1,
                 time_unit: "s",
+            },
+        ),
+        Var(
+            DeclarationVar {
+                var_type: "wire",
+                size: 32,
+                identifier_code: "\"",
+                reference: "io_uart_csr_reg [31:0]",
             },
         ),
         Scope(

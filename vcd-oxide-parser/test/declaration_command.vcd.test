@@ -7,6 +7,7 @@ $end
 $timescale
 	1s
 $end
+$var wire 32 " io_uart_csr_reg [31:0] $end
 $scope module NextCoreTest $end
 $scope module NextCoreTest2 $end
 $var wire 32 ! io_uart_io_reg [31:0] $end

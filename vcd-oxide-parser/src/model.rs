@@ -1,6 +1,8 @@
 use core::cell::RefCell;
 use std::rc::{Rc, Weak};
 
+type VcdScopeNode = Rc<RefCell<ValueChangeDumpScope>>;
+
 #[derive(Debug, Default)]
 pub struct ValueChangeDump {
     pub date: String,
@@ -11,13 +13,21 @@ pub struct ValueChangeDump {
     pub root_scope: VcdScopeNode,
 }
 
-type VcdScopeNode = Rc<RefCell<ValueChangeDumpScope>>;
-
 #[derive(Debug, Default)]
 pub struct ValueChangeDumpScope {
     pub name: String,
+    pub kind: String,
     pub scopes: Vec<Rc<RefCell<ValueChangeDumpScope>>>,
     pub parent: Option<Weak<RefCell<ValueChangeDumpScope>>>,
+    pub signals: Vec<ValueChangeDumpSignal>,
+}
+
+#[derive(Debug, Default)]
+pub struct ValueChangeDumpSignal {
+    pub kind: String,
+    pub identifier: String,
+    pub reference: String,
+    pub size: usize,
 }
 
 impl ValueChangeDumpScope {

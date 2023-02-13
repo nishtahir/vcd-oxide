@@ -1,0 +1,213 @@
+---
+source: vcd-oxide-parser/src/lib.rs
+assertion_line: 308
+expression: model
+---
+ValueChangeDump {
+    date: "Fri Jan 27 10:13:28 2023",
+    version: "Icarus Verilog",
+    timescale: "1s",
+    root_scope: RefCell {
+        value: ValueChangeDumpScope {
+            name: "",
+            kind: "",
+            scopes: [
+                RefCell {
+                    value: ValueChangeDumpScope {
+                        name: "UartRxTest",
+                        kind: "",
+                        scopes: [
+                            RefCell {
+                                value: ValueChangeDumpScope {
+                                    name: "uart_rx_uut",
+                                    kind: "",
+                                    scopes: [],
+                                    parent: Some(
+                                        (Weak),
+                                    ),
+                                    signals: [
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "\"",
+                                            reference: "clk ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "%",
+                                            reference: "read ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "#",
+                                            reference: "rst ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "$",
+                                            reference: "uart_rx ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "&",
+                                            reference: "data [7:0]",
+                                            size: 8,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "'",
+                                            reference: "busy ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: "(",
+                                            reference: "BAUD ",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: ")",
+                                            reference: "CLK_FREQUENCY_HZ ",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: "*",
+                                            reference: "DIV_COUNTER ",
+                                            size: 64,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: "+",
+                                            reference: "DIV_PER_BIT ",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: ",",
+                                            reference: "DIV_SAMPLE ",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: "-",
+                                            reference: "MAX_BAUD_COUNTER ",
+                                            size: 64,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "parameter",
+                                            identifier: ".",
+                                            reference: "MID_POINT ",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "/",
+                                            reference: "baud_counter [1:0]",
+                                            size: 2,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "0",
+                                            reference: "bit_counter [3:0]",
+                                            size: 4,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "1",
+                                            reference: "clear_bit ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "2",
+                                            reference: "clear_sample ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "3",
+                                            reference: "data_register [9:0]",
+                                            size: 10,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "4",
+                                            reference: "inc_bit ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "5",
+                                            reference: "inc_sample ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "6",
+                                            reference: "next_state [1:0]",
+                                            size: 2,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "7",
+                                            reference: "sample_counter [1:0]",
+                                            size: 2,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "8",
+                                            reference: "shift ",
+                                            size: 1,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "reg",
+                                            identifier: "9",
+                                            reference: "state [1:0]",
+                                            size: 2,
+                                        },
+                                    ],
+                                },
+                            },
+                        ],
+                        parent: Some(
+                            (Weak),
+                        ),
+                        signals: [
+                            ValueChangeDumpSignal {
+                                kind: "wire",
+                                identifier: "!",
+                                reference: "data [7:0]",
+                                size: 8,
+                            },
+                            ValueChangeDumpSignal {
+                                kind: "reg",
+                                identifier: "\"",
+                                reference: "clk ",
+                                size: 1,
+                            },
+                            ValueChangeDumpSignal {
+                                kind: "reg",
+                                identifier: "#",
+                                reference: "rst ",
+                                size: 1,
+                            },
+                            ValueChangeDumpSignal {
+                                kind: "reg",
+                                identifier: "$",
+                                reference: "uart_rx ",
+                                size: 1,
+                            },
+                        ],
+                    },
+                },
+            ],
+            parent: None,
+            signals: [],
+        },
+    },
+}

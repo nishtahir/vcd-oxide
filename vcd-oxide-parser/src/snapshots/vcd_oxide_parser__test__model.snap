@@ -1,6 +1,6 @@
 ---
 source: vcd-oxide-parser/src/lib.rs
-assertion_line: 297
+assertion_line: 302
 expression: model
 ---
 ValueChangeDump {
@@ -10,37 +10,90 @@ ValueChangeDump {
     root_scope: RefCell {
         value: ValueChangeDumpScope {
             name: "",
+            kind: "",
             scopes: [
                 RefCell {
                     value: ValueChangeDumpScope {
                         name: "NextCoreTest",
+                        kind: "",
                         scopes: [
                             RefCell {
                                 value: ValueChangeDumpScope {
                                     name: "NextCoreTest2",
+                                    kind: "",
                                     scopes: [],
                                     parent: Some(
                                         (Weak),
                                     ),
+                                    signals: [
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "!",
+                                            reference: "io_uart_io_reg [31:0]",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "\"",
+                                            reference: "io_uart_csr_reg [31:0]",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "#",
+                                            reference: "io_gpio_io_reg [31:0]",
+                                            size: 32,
+                                        },
+                                    ],
                                 },
                             },
                             RefCell {
                                 value: ValueChangeDumpScope {
                                     name: "NextCoreTest3",
+                                    kind: "",
                                     scopes: [],
                                     parent: Some(
                                         (Weak),
                                     ),
+                                    signals: [
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "$",
+                                            reference: "io_uart_io_reg3 [31:0]",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "^",
+                                            reference: "io_uart_csr_reg3 [31:0]",
+                                            size: 32,
+                                        },
+                                        ValueChangeDumpSignal {
+                                            kind: "wire",
+                                            identifier: "&",
+                                            reference: "io_gpio_io_reg3 [31:0]",
+                                            size: 32,
+                                        },
+                                    ],
                                 },
                             },
                         ],
                         parent: Some(
                             (Weak),
                         ),
+                        signals: [],
                     },
                 },
             ],
             parent: None,
+            signals: [
+                ValueChangeDumpSignal {
+                    kind: "wire",
+                    identifier: "\"",
+                    reference: "io_uart_csr_reg [31:0]",
+                    size: 32,
+                },
+            ],
         },
     },
 }
