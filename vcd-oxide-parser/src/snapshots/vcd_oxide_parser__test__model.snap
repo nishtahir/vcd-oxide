@@ -1,0 +1,46 @@
+---
+source: vcd-oxide-parser/src/lib.rs
+assertion_line: 297
+expression: model
+---
+ValueChangeDump {
+    date: "Fri Jan 27 10:13:28 2023",
+    version: "Icarus Verilog",
+    timescale: "1s",
+    root_scope: RefCell {
+        value: ValueChangeDumpScope {
+            name: "",
+            scopes: [
+                RefCell {
+                    value: ValueChangeDumpScope {
+                        name: "NextCoreTest",
+                        scopes: [
+                            RefCell {
+                                value: ValueChangeDumpScope {
+                                    name: "NextCoreTest2",
+                                    scopes: [],
+                                    parent: Some(
+                                        (Weak),
+                                    ),
+                                },
+                            },
+                            RefCell {
+                                value: ValueChangeDumpScope {
+                                    name: "NextCoreTest3",
+                                    scopes: [],
+                                    parent: Some(
+                                        (Weak),
+                                    ),
+                                },
+                            },
+                        ],
+                        parent: Some(
+                            (Weak),
+                        ),
+                    },
+                },
+            ],
+            parent: None,
+        },
+    },
+}

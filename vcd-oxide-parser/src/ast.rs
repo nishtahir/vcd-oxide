@@ -5,18 +5,6 @@ pub struct ValueChangeDumpDefinition {
 }
 
 #[derive(Debug)]
-pub enum DeclarationType {
-    Comment,
-    Date,
-    EndDefinitions,
-    Scope,
-    Timescale,
-    Upscope,
-    Var,
-    Version,
-}
-
-#[derive(Debug)]
 pub enum DeclarationCommand {
     Comment(GenericComment),
     Date(DeclarationDate),

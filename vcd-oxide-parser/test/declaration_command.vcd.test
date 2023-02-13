@@ -8,9 +8,18 @@ $timescale
 	1s
 $end
 $scope module NextCoreTest $end
+$scope module NextCoreTest2 $end
 $var wire 32 ! io_uart_io_reg [31:0] $end
 $var wire 32 " io_uart_csr_reg [31:0] $end
 $var wire 32 # io_gpio_io_reg [31:0] $end
+$upscope $end
+$scope module NextCoreTest3 $end
+$var wire 32 $ io_uart_io_reg3 [31:0] $end
+$var wire 32 ^ io_uart_csr_reg3 [31:0] $end
+$var wire 32 & io_gpio_io_reg3 [31:0] $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
 $dumpall
 b10000 M#
 b1000 J#

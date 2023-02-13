@@ -1,9 +1,16 @@
 mod ast;
+mod model;
 
 extern crate pest;
 extern crate pest_derive;
 
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
+
 use crate::ast::*;
+use model::*;
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
 
@@ -204,6 +211,57 @@ fn parse(input: &str) -> ValueChangeDumpDefinition {
     }
 }
 
+impl ValueChangeDump {
+    pub fn fromDefinition(definition: ValueChangeDumpDefinition) -> Self {
+        let mut dump = ValueChangeDump::default();
+        let mut active_scope = dump.root_scope.clone();
+        for declaration in definition.declaration_commands {
+            match declaration {
+                DeclarationCommand::Comment(_) => {
+                    // Ignore
+                }
+                DeclarationCommand::EndDefinitions => {
+                    // Ignore
+                }
+                DeclarationCommand::Date(date) => dump.date = date.value,
+                DeclarationCommand::Timescale(timescale) => {
+                    dump.timescale = format!("{}{}", timescale.time_number, timescale.time_unit)
+                }
+                DeclarationCommand::Scope(scope) => {
+                    let scope = Rc::<RefCell<ValueChangeDumpScope>>::new(RefCell::new(
+                        ValueChangeDumpScope {
+                            name: scope.scope_identifier,
+                            parent: Some(Rc::<RefCell<ValueChangeDumpScope>>::downgrade(
+                                &active_scope,
+                            )),
+                            ..Default::default()
+                        },
+                    ));
+                    active_scope.borrow_mut().scopes.push(scope.clone());
+                    active_scope = scope;
+                }
+                DeclarationCommand::Upscope => {
+                    active_scope = active_scope
+                        .clone()
+                        .borrow()
+                        .parent
+                        .as_ref()
+                        .unwrap()
+                        .upgrade()
+                        .unwrap();
+                    // TODO - pop scope
+                }
+                DeclarationCommand::Var(_) => {
+                    // TODO
+                }
+                DeclarationCommand::Version(version) => dump.version = version.value,
+            }
+        }
+
+        dump
+    }
+}
+
 #[cfg(test)]
 mod test {
     use super::*;
@@ -229,5 +287,13 @@ mod test {
         let declerations = include_str!("../test/NextCoreTest.vcd");
         let ast = parse(declerations);
         assert_debug_snapshot!(ast)
+    }
+
+    #[test]
+    fn test_model() {
+        let declerations = include_str!("../test/declaration_command.vcd.test");
+        let ast = parse(declerations);
+        let model = ValueChangeDump::fromDefinition(ast);
+        assert_debug_snapshot!(model)
     }
 }

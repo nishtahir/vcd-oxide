@@ -1,6 +1,6 @@
 ---
 source: vcd-oxide-parser/src/lib.rs
-assertion_line: 216
+assertion_line: 274
 expression: ast
 ---
 ValueChangeDumpDefinition {
@@ -27,6 +27,12 @@ ValueChangeDumpDefinition {
                 scope_identifier: "NextCoreTest",
             },
         ),
+        Scope(
+            DeclarationScope {
+                scope_type: "module",
+                scope_identifier: "NextCoreTest2",
+            },
+        ),
         Var(
             DeclarationVar {
                 var_type: "wire",
@@ -51,6 +57,40 @@ ValueChangeDumpDefinition {
                 reference: "io_gpio_io_reg [31:0]",
             },
         ),
+        Upscope,
+        Scope(
+            DeclarationScope {
+                scope_type: "module",
+                scope_identifier: "NextCoreTest3",
+            },
+        ),
+        Var(
+            DeclarationVar {
+                var_type: "wire",
+                size: 32,
+                identifier_code: "$",
+                reference: "io_uart_io_reg3 [31:0]",
+            },
+        ),
+        Var(
+            DeclarationVar {
+                var_type: "wire",
+                size: 32,
+                identifier_code: "^",
+                reference: "io_uart_csr_reg3 [31:0]",
+            },
+        ),
+        Var(
+            DeclarationVar {
+                var_type: "wire",
+                size: 32,
+                identifier_code: "&",
+                reference: "io_gpio_io_reg3 [31:0]",
+            },
+        ),
+        Upscope,
+        Upscope,
+        EndDefinitions,
     ],
     simulation_commands: [
         KeywordCommand(
