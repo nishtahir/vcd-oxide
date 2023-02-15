@@ -1,0 +1,97 @@
+---
+source: vcd-oxide-wavejson/src/lib.rs
+assertion_line: 48
+expression: wave
+---
+WaveJson {
+    signal: [
+        WaveJsonSignal {
+            name: Some(
+                "pclk",
+            ),
+            wave: Some(
+                "p.......",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "Pclk",
+            ),
+            wave: Some(
+                "P.......",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "nclk",
+            ),
+            wave: Some(
+                "n.......",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "Nclk",
+            ),
+            wave: Some(
+                "N.......",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: None,
+            wave: None,
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "clk0",
+            ),
+            wave: Some(
+                "phnlPHNL",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "clk1",
+            ),
+            wave: Some(
+                "xhlhLHl.",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "clk2",
+            ),
+            wave: Some(
+                "hpHplnLn",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "clk3",
+            ),
+            wave: Some(
+                "nhNhplPl",
+            ),
+            data: None,
+        },
+        WaveJsonSignal {
+            name: Some(
+                "clk4",
+            ),
+            wave: Some(
+                "xlh.L.Hx",
+            ),
+            data: None,
+        },
+    ],
+    head: None,
+    foot: None,
+}

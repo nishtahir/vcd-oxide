@@ -5,7 +5,7 @@ extern crate pest;
 extern crate pest_derive;
 
 use crate::ast::*;
-use model::*;
+use crate::model::*;
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
 use std::{cell::RefCell, rc::Rc};
@@ -41,40 +41,69 @@ fn visit_value_change_dump_definitions(rule: Pair<Rule>) -> ValueChangeDumpDefin
 fn visit_simulation_command(rule: Pair<Rule>) -> SimulationCommand {
     let inner = rule.into_inner().next().unwrap();
     match inner.as_rule() {
-        Rule::simulation_keyword_command => visit_simulation_keyword_command(inner),
+        Rule::vcd_simulation_dumpall => visit_vcd_simulation_dumpall(inner),
+        Rule::vcd_simulation_dumpoff => visit_vcd_simulation_dumpoff(inner),
+        Rule::vcd_simulation_dumpon => visit_vcd_simulation_dumpon(inner),
+        Rule::vcd_simulation_dumpvars => visit_vcd_simulation_dumpvars(inner),
         Rule::simulation_keyword_comment => visit_simulation_keyword_comment(inner),
-        Rule::simulation_time => SimulationCommand::SimulationTime,
+        Rule::simulation_time => visit_simulation_time(inner),
         Rule::value_change => SimulationCommand::ValueChange(visit_value_change(inner)),
         _ => unreachable!("{:#?}", inner),
     }
 }
 
-fn visit_simulation_keyword_command(rule: Pair<Rule>) -> SimulationCommand {
-    let mut inner = rule.into_inner();
-    let ty = visit_simulation_keyword(inner.next().unwrap());
-    let mut value_changes = vec![];
-    for i in inner {
-        value_changes.push(visit_value_change(i));
-    }
-
-    SimulationCommand::KeywordCommand(SimulationKeywordCommand { ty, value_changes })
+fn visit_vcd_simulation_dumpall(rule: Pair<Rule>) -> SimulationCommand {
+    SimulationCommand::KeywordCommand(SimulationKeywordCommand {
+        ty: SimulationType::DumpAll,
+        value_changes: visit_value_change_list(rule),
+    })
 }
 
-fn visit_simulation_keyword(rule: Pair<Rule>) -> SimulationType {
-    let keyword = rule.as_str();
-    match keyword {
-        "$dumpall" => SimulationType::DumpAll,
-        "$dumpoff" => SimulationType::DumpOff,
-        "$dumpon" => SimulationType::DumpOn,
-        "$dumpvars" => SimulationType::DumpVars,
-        _ => unreachable!("{:#?}", rule),
-    }
+fn visit_vcd_simulation_dumpoff(rule: Pair<Rule>) -> SimulationCommand {
+    SimulationCommand::KeywordCommand(SimulationKeywordCommand {
+        ty: SimulationType::DumpOff,
+        value_changes: visit_value_change_list(rule),
+    })
+}
+
+fn visit_vcd_simulation_dumpon(rule: Pair<Rule>) -> SimulationCommand {
+    SimulationCommand::KeywordCommand(SimulationKeywordCommand {
+        ty: SimulationType::DumpOn,
+        value_changes: visit_value_change_list(rule),
+    })
+}
+
+fn visit_vcd_simulation_dumpvars(rule: Pair<Rule>) -> SimulationCommand {
+    SimulationCommand::KeywordCommand(SimulationKeywordCommand {
+        ty: SimulationType::DumpVars,
+        value_changes: visit_value_change_list(rule),
+    })
 }
 
 fn visit_simulation_keyword_comment(rule: Pair<Rule>) -> SimulationCommand {
     SimulationCommand::Comment(GenericComment {
         value: rule.as_str().to_owned(),
     })
+}
+
+fn visit_simulation_time(rule: Pair<Rule>) -> SimulationCommand {
+    let value = rule
+        .into_inner()
+        .next()
+        .unwrap()
+        .as_str()
+        .parse::<usize>()
+        .unwrap();
+    SimulationCommand::SimulationTime(SimulationTime { value })
+}
+
+fn visit_value_change_list(rule: Pair<Rule>) -> Vec<SimulationValueChange> {
+    let mut inner = rule.into_inner();
+    let mut value_changes = vec![];
+    for i in inner {
+        value_changes.push(visit_value_change(i));
+    }
+    value_changes
 }
 
 fn visit_value_change(rule: Pair<Rule>) -> SimulationValueChange {
@@ -260,6 +289,17 @@ impl ValueChangeDump {
                 DeclarationCommand::Version(version) => dump.version = version.value,
             }
         }
+
+        // for sim in definition.simulation_commands {
+        //     match sim {
+        //         SimulationCommand::KeywordCommand(_) => todo!(),
+        //         SimulationCommand::Comment(_) => {
+        //             // Ignore
+        //         }
+        //         SimulationCommand::SimulationTime => todo!(),
+        //         SimulationCommand::ValueChange(_) => todo!(),
+        //     }
+        // }
 
         dump
     }

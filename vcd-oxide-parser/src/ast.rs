@@ -50,7 +50,7 @@ pub struct DeclarationVar {
 pub enum SimulationCommand {
     KeywordCommand(SimulationKeywordCommand),
     Comment(GenericComment),
-    SimulationTime,
+    SimulationTime(SimulationTime),
     ValueChange(SimulationValueChange),
 }
 
@@ -96,6 +96,11 @@ pub struct BinaryVectorValueChange {
 pub struct RealVectorValueChange {
     pub value: String,
     pub identifier_code: String,
+}
+
+#[derive(Debug)]
+pub struct SimulationTime {
+    pub value: usize,
 }
 
 #[derive(Debug)]

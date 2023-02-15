@@ -96,21 +96,42 @@ bit_select_index = { (unsigned_number ~ (":" ~  unsigned_number)?) }
 vcd_declaration_version = { "$version" ~ command_text ~ end }
 
 simulation_command = {
-	simulation_keyword_command
+    vcd_simulation_dumpall
+    | vcd_simulation_dumpoff
+    | vcd_simulation_dumpon
+    | vcd_simulation_dumpvars
     | simulation_keyword_comment
     | simulation_time
     | value_change
 }
 
-simulation_keyword_command = {
-	simulation_keyword ~ value_change+ ~ end
+// 18.2.3.9 $dumpall
+// The $dumpall keyword specifies current values of all variables dumped. 
+// The syntax for the keyword is given in Syntax 18-17.
+vcd_simulation_dumpall = {
+    "$dumpall" ~ value_change* ~ end
 }
 
-simulation_keyword = {
-    "$dumpall"
-    | "$dumpoff"
-    | "$dumpon"
-    | "$dumpvars"
+// 18.2.3.10 $dumpoff
+// The $dumpoff keyword indicates all variables dumped with X values. 
+// The syntax for the keyword is given in Syntax 18-18.
+vcd_simulation_dumpoff = {
+    "$dumpoff" ~ value_change* ~ end
+}
+
+// 18.2.3.11 $dumpon
+// The $dumpon keyword indicates resumption of dumping and lists current values of all variables dumped. 
+// The syntax for the keyword is given in Syntax 18-19.
+
+vcd_simulation_dumpon = {
+    "$dumpon" ~ value_change* ~ end
+}
+
+// 18.2.3.12 $dumpvars
+// The section beginning with $dumpvars keyword lists initial values of all variables dumped. 
+// The syntax for the keyword is given in Syntax 18-20.
+vcd_simulation_dumpvars = {
+    "$dumpvars" ~ value_change* ~ end
 }
 
 simulation_keyword_comment = {

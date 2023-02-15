@@ -29,13 +29,3 @@ pub struct ValueChangeDumpSignal {
     pub reference: String,
     pub size: usize,
 }
-
-impl ValueChangeDumpScope {
-    fn new_with_parent_scope(name: String, parent: &VcdScopeNode) -> VcdScopeNode {
-        Rc::new(RefCell::new(Self {
-            name,
-            parent: Some(Rc::<RefCell<ValueChangeDumpScope>>::downgrade(parent)),
-            ..Default::default()
-        }))
-    }
-}
