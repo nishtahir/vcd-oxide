@@ -8,6 +8,7 @@ use crate::ast::*;
 use crate::model::*;
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
+use std::collections::HashMap;
 use std::{cell::RefCell, rc::Rc};
 
 #[derive(Parser, Debug)]
@@ -276,32 +277,101 @@ impl ValueChangeDump {
                         .unwrap();
                 }
                 DeclarationCommand::Var(var) => {
+                    let signal_id = var.identifier_code;
                     active_scope
                         .borrow_mut()
                         .signals
                         .push(ValueChangeDumpSignal {
                             kind: var.var_type.to_owned(),
-                            identifier: var.identifier_code.to_owned(),
+                            identifier: signal_id.to_owned(),
                             reference: var.reference.to_owned(),
                             size: var.size,
-                        })
+                            ..Default::default()
+                        });
+
+                    dump.wave_map
+                        .insert(signal_id.to_owned(), ValueChangeDumpWave::default());
                 }
                 DeclarationCommand::Version(version) => dump.version = version.value,
             }
         }
 
-        // for sim in definition.simulation_commands {
-        //     match sim {
-        //         SimulationCommand::KeywordCommand(_) => todo!(),
-        //         SimulationCommand::Comment(_) => {
-        //             // Ignore
-        //         }
-        //         SimulationCommand::SimulationTime => todo!(),
-        //         SimulationCommand::ValueChange(_) => todo!(),
-        //     }
-        // }
+        let mut simulation_time = 0;
+        for sim in definition.simulation_commands {
+            match sim {
+                SimulationCommand::KeywordCommand(command) => {
+                    for elem in &command.value_changes {
+                        dump.wave_map
+                            .get_mut(&elem.identifier_code())
+                            .unwrap()
+                            .value_changes
+                            .push(ValueChange {
+                                value: elem.value(),
+                                time: simulation_time,
+                            });
+                    }
+                }
+                SimulationCommand::Comment(_) => {
+                    // Ignore
+                }
+                SimulationCommand::SimulationTime(time) => simulation_time = time.value,
+                SimulationCommand::ValueChange(value_change) => {
+                    dump.wave_map
+                        .get_mut(&value_change.identifier_code())
+                        .unwrap()
+                        .value_changes
+                        .push(ValueChange {
+                            value: value_change.value(),
+                            time: simulation_time,
+                        });
+                }
+            }
+        }
 
         dump
+    }
+
+    fn create_value_change(time: usize, svc: SimulationValueChange) -> ValueChange {
+        match svc {
+            SimulationValueChange::Scalar(s) => ValueChange {
+                time,
+                value: s.value,
+            },
+            SimulationValueChange::Vector(v) => match v {
+                VectorValueChange::Binary(b) => ValueChange {
+                    time,
+                    value: b.value,
+                },
+                VectorValueChange::Real(r) => ValueChange {
+                    time,
+                    value: r.value,
+                },
+            },
+        }
+    }
+}
+
+impl SimulationValueChange {
+    fn identifier_code(&self) -> String {
+        let s = match self {
+            SimulationValueChange::Scalar(s) => &s.identifier_code,
+            SimulationValueChange::Vector(v) => match v {
+                VectorValueChange::Binary(b) => &b.identifier_code,
+                VectorValueChange::Real(r) => &r.identifier_code,
+            },
+        };
+        s.to_owned()
+    }
+
+    fn value(&self) -> String {
+        let s = match self {
+            SimulationValueChange::Scalar(s) => &s.value,
+            SimulationValueChange::Vector(v) => match v {
+                VectorValueChange::Binary(b) => &b.value,
+                VectorValueChange::Real(r) => &r.value,
+            },
+        };
+        s.to_owned()
     }
 }
 
@@ -330,14 +400,6 @@ mod test {
         let declerations = include_str!("../test/NextCoreTest.vcd");
         let ast = parse(declerations);
         assert_debug_snapshot!(ast)
-    }
-
-    #[test]
-    fn test_model() {
-        let declerations = include_str!("../test/declaration_command.vcd.test");
-        let ast = parse(declerations);
-        let model = ValueChangeDump::fromDefinition(ast);
-        assert_debug_snapshot!(model)
     }
 
     #[test]

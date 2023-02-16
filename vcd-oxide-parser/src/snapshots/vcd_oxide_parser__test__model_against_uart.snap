@@ -1,6 +1,6 @@
 ---
 source: vcd-oxide-parser/src/lib.rs
-assertion_line: 308
+assertion_line: 410
 expression: model
 ---
 ValueChangeDump {
@@ -208,6 +208,260 @@ ValueChangeDump {
             ],
             parent: None,
             signals: [],
+        },
+    },
+    wave_map: {
+        "!": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b0",
+                },
+            ],
+        },
+        "\"": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "0",
+                },
+                ValueChange {
+                    time: 1,
+                    value: "1",
+                },
+                ValueChange {
+                    time: 2,
+                    value: "0",
+                },
+                ValueChange {
+                    time: 3,
+                    value: "1",
+                },
+                ValueChange {
+                    time: 4,
+                    value: "0",
+                },
+                ValueChange {
+                    time: 5,
+                    value: "1",
+                },
+                ValueChange {
+                    time: 6,
+                    value: "0",
+                },
+            ],
+        },
+        "#": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "1",
+                },
+            ],
+        },
+        "$": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "1",
+                },
+                ValueChange {
+                    time: 2,
+                    value: "0",
+                },
+                ValueChange {
+                    time: 4,
+                    value: "1",
+                },
+            ],
+        },
+        "%": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "z",
+                },
+            ],
+        },
+        "&": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b0",
+                },
+            ],
+        },
+        "'": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "0",
+                },
+            ],
+        },
+        "(": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b1010",
+                },
+            ],
+        },
+        ")": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b1100100",
+                },
+            ],
+        },
+        "*": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b10",
+                },
+            ],
+        },
+        "+": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b1010",
+                },
+            ],
+        },
+        ",": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b100",
+                },
+            ],
+        },
+        "-": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b10",
+                },
+            ],
+        },
+        ".": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b10",
+                },
+            ],
+        },
+        "/": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b0",
+                },
+            ],
+        },
+        "0": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b0",
+                },
+            ],
+        },
+        "1": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "x",
+                },
+                ValueChange {
+                    time: 1,
+                    value: "0",
+                },
+            ],
+        },
+        "2": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "x",
+                },
+                ValueChange {
+                    time: 1,
+                    value: "0",
+                },
+            ],
+        },
+        "3": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b0",
+                },
+            ],
+        },
+        "4": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "x",
+                },
+                ValueChange {
+                    time: 1,
+                    value: "0",
+                },
+            ],
+        },
+        "5": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "x",
+                },
+                ValueChange {
+                    time: 1,
+                    value: "0",
+                },
+            ],
+        },
+        "6": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b10",
+                },
+            ],
+        },
+        "7": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b0",
+                },
+            ],
+        },
+        "8": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "x",
+                },
+                ValueChange {
+                    time: 1,
+                    value: "0",
+                },
+            ],
+        },
+        "9": ValueChangeDumpWave {
+            value_changes: [
+                ValueChange {
+                    time: 0,
+                    value: "b10",
+                },
+            ],
         },
     },
 }

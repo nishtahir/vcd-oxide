@@ -1,6 +1,6 @@
 ---
 source: vcd-oxide-parser/src/lib.rs
-assertion_line: 223
+assertion_line: 394
 expression: ast
 ---
 ValueChangeDumpDefinition {
@@ -330,7 +330,11 @@ ValueChangeDumpDefinition {
                 ],
             },
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 0,
+            },
+        ),
         KeywordCommand(
             SimulationKeywordCommand {
                 ty: DumpVars,
@@ -462,7 +466,11 @@ ValueChangeDumpDefinition {
                 ],
             },
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 1,
+            },
+        ),
         ValueChange(
             Scalar(
                 ScalarValueChange {
@@ -511,7 +519,11 @@ ValueChangeDumpDefinition {
                 },
             ),
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 2,
+            },
+        ),
         ValueChange(
             Scalar(
                 ScalarValueChange {
@@ -528,7 +540,11 @@ ValueChangeDumpDefinition {
                 },
             ),
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 3,
+            },
+        ),
         ValueChange(
             Scalar(
                 ScalarValueChange {
@@ -537,7 +553,11 @@ ValueChangeDumpDefinition {
                 },
             ),
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 4,
+            },
+        ),
         ValueChange(
             Scalar(
                 ScalarValueChange {
@@ -554,7 +574,11 @@ ValueChangeDumpDefinition {
                 },
             ),
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 5,
+            },
+        ),
         ValueChange(
             Scalar(
                 ScalarValueChange {
@@ -563,7 +587,11 @@ ValueChangeDumpDefinition {
                 },
             ),
         ),
-        SimulationTime,
+        SimulationTime(
+            SimulationTime {
+                value: 6,
+            },
+        ),
         ValueChange(
             Scalar(
                 ScalarValueChange {

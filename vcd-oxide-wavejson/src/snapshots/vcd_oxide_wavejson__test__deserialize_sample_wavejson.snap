@@ -1,11 +1,11 @@
 ---
 source: vcd-oxide-wavejson/src/lib.rs
-assertion_line: 16
+assertion_line: 48
 expression: wave
 ---
 WaveJson {
     signal: [
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "pclk",
             ),
@@ -14,7 +14,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "Pclk",
             ),
@@ -23,7 +23,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "nclk",
             ),
@@ -32,7 +32,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "Nclk",
             ),
@@ -41,12 +41,12 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: None,
             wave: None,
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "clk0",
             ),
@@ -55,7 +55,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "clk1",
             ),
@@ -64,7 +64,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "clk2",
             ),
@@ -73,7 +73,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "clk3",
             ),
@@ -82,7 +82,7 @@ WaveJson {
             ),
             data: None,
         },
-        Signal {
+        WaveJsonSignal {
             name: Some(
                 "clk4",
             ),
@@ -92,6 +92,6 @@ WaveJson {
             data: None,
         },
     ],
-    head: Head,
-    foot: Foot,
+    head: None,
+    foot: None,
 }

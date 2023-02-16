@@ -1,5 +1,8 @@
 use core::cell::RefCell;
-use std::rc::{Rc, Weak};
+use std::{
+    collections::BTreeMap,
+    rc::{Rc, Weak},
+};
 
 type VcdScopeNode = Rc<RefCell<ValueChangeDumpScope>>;
 
@@ -11,6 +14,7 @@ pub struct ValueChangeDump {
     // TODO: Validate this but there's only one root scope
     // This scope can have multiple child scopes
     pub root_scope: VcdScopeNode,
+    pub wave_map: BTreeMap<String, ValueChangeDumpWave>,
 }
 
 #[derive(Debug, Default)]
@@ -28,4 +32,15 @@ pub struct ValueChangeDumpSignal {
     pub identifier: String,
     pub reference: String,
     pub size: usize,
+}
+
+#[derive(Debug, Default)]
+pub struct ValueChangeDumpWave {
+    pub value_changes: Vec<ValueChange>,
+}
+
+#[derive(Debug, Default)]
+pub struct ValueChange {
+    pub time: usize,
+    pub value: String,
 }
