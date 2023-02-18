@@ -1,0 +1,11 @@
+[package]
+name = "vcd-oxide"
+version = "0.1.0"
+authors = ["Nish Tahir"]
+description = "A VCD to WaveJson parser"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.1.4", features = ["derive"] }
+vcd-oxide-parser = { path = "../vcd-oxide-parser" }
+vcd-oxide-wavejson = { path = "../vcd-oxide-wavejson" }

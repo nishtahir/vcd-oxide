@@ -1,68 +1,91 @@
-mod types;
+use std::{os::macos::raw, str::FromStr};
 
-use types::WaveJsonSignal;
-use vcd_oxide_core::{Signal, EdgeDirection::{Positive, Negative}};
-use crate::types::WaveJson;
+use serde::{Deserialize, Serialize};
+use vcd_oxide_parser::{ValueChange, ValueChangeDump, ValueChangeDumpSignal, ValueChangeDumpWave};
 
-impl From<Signal> for WaveJsonSignal {
-    fn from(signal: Signal) -> Self {
-        let mut stringified_wave = String::new();
-        if let Some(edge_direction) = signal.edge_direction {
-            match edge_direction {
-                Positive => stringified_wave += "p",
-                Negative => stringified_wave += "n",
-            }
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WaveJson {
+    pub signal: Vec<WaveJsonSignal>,
+    #[serde(skip)]
+    pub head: Option<Head>,
+    #[serde(skip)]
+    pub foot: Option<Foot>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WaveJsonSignal {
+    pub name: Option<String>,
+    pub wave: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub data: Option<String>,
+}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Head {}
+
+#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Foot {}
+
+impl From<ValueChangeDump> for WaveJson {
+    fn from(vcd: ValueChangeDump) -> Self {
+        let mut wavejson_signals = vec![];
+        let vcd_signals = vcd.signals();
+        let max_value_change_len = vcd
+            .wave_map
+            .values()
+            .map(|sig| sig.value_changes.len())
+            .max()
+            .unwrap_or(0);
+
+        for sig in vcd_signals {
+            let raw_wave = vcd.wave_map.get(&sig.identifier).unwrap();
+            wavejson_signals.push(WaveJsonSignal {
+                name: Some(sig.reference),
+                wave: Some(vcd_wave_to_string(raw_wave, max_value_change_len)),
+                data: None,
+            });
         }
 
-        WaveJsonSignal {
-            name: Some(signal.name),
-            wave: Some(stringified_wave.to_owned()),
-            data: None,
+        WaveJson {
+            signal: wavejson_signals,
+            head: None,
+            foot: None,
         }
     }
 }
 
-#[cfg(test)]
-mod test {
+fn vcd_wave_to_string(sig: &ValueChangeDumpWave, max_len: usize) -> String {
+    let mut result = String::from_str("").unwrap();
+    let mut signal_iter = sig.value_changes.iter().peekable();
+    while let Some(value_change) = signal_iter.next() {
+        let mut repeat = 0;
+        if let Some(next) = signal_iter.peek() {
+            repeat = next.time - value_change.time;
+        }
 
-    use insta::{assert_debug_snapshot, assert_json_snapshot};
-    use vcd_oxide_core::{EdgeDirection, Signal};
-
-    use super::*;
-
-    #[test]
-    fn test_serialize_empty_signal() {
-        let wave_json = WaveJson {
-            signal: vec![],
-            head: None,
-            foot: None,
+        match value_change.value.as_str() {
+            "0" | "b0" => {
+                result += &"l";
+            }
+            "1" | "b1" => {
+                result += &"h";
+            }
+            _ => unimplemented!("{}", value_change.value),
         };
-
-        assert_json_snapshot!(wave_json);
+        if repeat > 1 {
+            result += &".".repeat(repeat - 1);
+        }
     }
 
-    #[test]
-    fn test_deserialize_sample_wavejson() {
-        let sample = include_str!("../test/res/simple.json");
-        let wave: WaveJson = serde_json::from_str(&sample).unwrap();
-        assert_debug_snapshot!(wave);
+    format!("{:.<width$}", result, width = max_len)
+}
+
+impl WaveJson {
+    pub fn to_json(&self) -> String {
+        serde_json::to_string_pretty(self).unwrap()
     }
-
-    #[test]
-    fn test_serialize_positive_edge_wave() {
-        let sig = Signal {
-            name: "test".to_owned(),
-            edge_direction: Some(EdgeDirection::Positive),
-            states: vec![],
-        };
-
-        let wave_json = WaveJson {
-            signal: vec![sig.into()],
-            head: None,
-            foot: None,
-        };
-
-        assert_json_snapshot!(wave_json);
-    }
-
 }

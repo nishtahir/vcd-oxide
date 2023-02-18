@@ -4,16 +4,16 @@ mod model;
 extern crate pest;
 extern crate pest_derive;
 
+pub use crate::model::*;
+
 use crate::ast::*;
-use crate::model::*;
 use pest::{iterators::Pair, Parser};
 use pest_derive::Parser;
-use std::collections::HashMap;
 use std::{cell::RefCell, rc::Rc};
 
 #[derive(Parser, Debug)]
 #[grammar = "grammar/vcd.pest"]
-pub struct ValueChangeDumpParser;
+struct ValueChangeDumpParser;
 
 fn visit_value_change_dump_definitions(rule: Pair<Rule>) -> ValueChangeDumpDefinition {
     let mut declaration_commands = vec![];
@@ -99,7 +99,7 @@ fn visit_simulation_time(rule: Pair<Rule>) -> SimulationCommand {
 }
 
 fn visit_value_change_list(rule: Pair<Rule>) -> Vec<SimulationValueChange> {
-    let mut inner = rule.into_inner();
+    let inner = rule.into_inner();
     let mut value_changes = vec![];
     for i in inner {
         value_changes.push(visit_value_change(i));
@@ -224,10 +224,6 @@ fn visit_vcd_declaration_comment(rule: Pair<Rule>) -> GenericComment {
     }
 }
 
-fn visit_command_text(rule: Option<Pair<Rule>>) -> String {
-    return rule.map_or("", |r| r.as_str()).to_owned();
-}
-
 fn parse(input: &str) -> ValueChangeDumpDefinition {
     let mut root = ValueChangeDumpParser::parse(Rule::file, input).unwrap();
     let inner = root.next().unwrap();
@@ -238,7 +234,12 @@ fn parse(input: &str) -> ValueChangeDumpDefinition {
 }
 
 impl ValueChangeDump {
-    pub fn fromDefinition(definition: ValueChangeDumpDefinition) -> Self {
+    pub fn parse(input: &str) -> Self {
+        let def = parse(input);
+        Self::from_definition(def)
+    }
+
+    fn from_definition(definition: ValueChangeDumpDefinition) -> Self {
         let mut dump = ValueChangeDump::default();
         let mut active_scope = dump.root_scope.clone();
         for declaration in definition.declaration_commands {
@@ -331,23 +332,14 @@ impl ValueChangeDump {
         dump
     }
 
-    fn create_value_change(time: usize, svc: SimulationValueChange) -> ValueChange {
-        match svc {
-            SimulationValueChange::Scalar(s) => ValueChange {
-                time,
-                value: s.value,
-            },
-            SimulationValueChange::Vector(v) => match v {
-                VectorValueChange::Binary(b) => ValueChange {
-                    time,
-                    value: b.value,
-                },
-                VectorValueChange::Real(r) => ValueChange {
-                    time,
-                    value: r.value,
-                },
-            },
+    pub fn signals(&self) -> Vec<ValueChangeDumpSignal> {
+        let mut signals = vec![];
+
+        for ele in &self.root_scope.borrow().scopes {
+            signals.append(&mut ele.borrow_mut().signals);
         }
+
+        signals
     }
 }
 
@@ -406,7 +398,7 @@ mod test {
     fn test_model_against_uart() {
         let declerations = include_str!("../test/UartRxTest.vcd");
         let ast = parse(declerations);
-        let model = ValueChangeDump::fromDefinition(ast);
+        let model = ValueChangeDump::from_definition(ast);
         assert_debug_snapshot!(model)
     }
 }
