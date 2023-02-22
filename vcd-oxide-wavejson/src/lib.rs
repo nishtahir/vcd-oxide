@@ -1,9 +1,9 @@
-use std::{os::macos::raw, str::FromStr};
+use std::{str::FromStr};
 
 use serde::{Deserialize, Serialize};
-use vcd_oxide_parser::{ValueChange, ValueChangeDump, ValueChangeDumpSignal, ValueChangeDumpWave};
+use vcd_oxide_parser::{ValueChangeDump, ValueChangeDumpWave};
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WaveJson {
     pub signal: Vec<WaveJsonSignal>,
@@ -13,7 +13,7 @@ pub struct WaveJson {
     pub foot: Option<Foot>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct WaveJsonSignal {
     pub name: Option<String>,
@@ -22,11 +22,11 @@ pub struct WaveJsonSignal {
     pub data: Option<String>,
 }
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Head {}
 
-#[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Foot {}
 
@@ -66,13 +66,19 @@ fn vcd_wave_to_string(sig: &ValueChangeDumpWave, max_len: usize) -> String {
         if let Some(next) = signal_iter.peek() {
             repeat = next.time - value_change.time;
         }
-
+        
         match value_change.value.as_str() {
             "0" | "b0" => {
-                result += &"l";
+                result += "l";
             }
             "1" | "b1" => {
-                result += &"h";
+                result += "h";
+            }
+            "x" => {
+                result += "x";
+            }
+            "z" => {
+                result += "z";
             }
             _ => unimplemented!("{}", value_change.value),
         };

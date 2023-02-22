@@ -279,15 +279,17 @@ impl ValueChangeDump {
                 }
                 DeclarationCommand::Var(var) => {
                     let signal_id = var.identifier_code;
+                    let mut qualifiers = active_scope.borrow().reference_hierarchy();
+                    qualifiers.push(var.reference.trim().to_owned());
+
                     active_scope
                         .borrow_mut()
                         .signals
                         .push(ValueChangeDumpSignal {
                             kind: var.var_type.to_owned(),
                             identifier: signal_id.to_owned(),
-                            reference: var.reference.to_owned(),
-                            size: var.size,
-                            ..Default::default()
+                            reference: qualifiers.join("."),
+                            size: var.size
                         });
 
                     dump.wave_map
@@ -333,12 +335,31 @@ impl ValueChangeDump {
     }
 
     pub fn signals(&self) -> Vec<ValueChangeDumpSignal> {
-        let mut signals = vec![];
+        self.root_scope.borrow_mut().all_signals()
+    }
+}
 
-        for ele in &self.root_scope.borrow().scopes {
-            signals.append(&mut ele.borrow_mut().signals);
+impl ValueChangeDumpScope {
+    fn reference_hierarchy(&self) -> Vec<String> {
+        let mut refs = vec![];
+        if let Some(weak_ref) = &self.parent {
+            if let Some(parent) = weak_ref.upgrade() {
+                let mut parent_refs = parent.as_ref().borrow().reference_hierarchy();
+                refs.append(&mut parent_refs);
+            }
         }
+        if !self.name.is_empty() {
+            refs.push(self.name.to_owned());
+        }
+        refs
+    }
 
+    fn all_signals(&mut self) -> Vec<ValueChangeDumpSignal> {
+        let mut signals = vec![];
+        for scope in &self.scopes {
+            signals.append(&mut scope.borrow_mut().all_signals());
+        }
+        signals.append(&mut self.signals);
         signals
     }
 }

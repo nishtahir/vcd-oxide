@@ -16,7 +16,7 @@ fn main() {
     let content = fs::read_to_string(&args.input).unwrap();
     let vcd = ValueChangeDump::parse(&content);
 
-    let mut output = args.input.clone();
+    let mut output = args.input;
     output.set_extension("json");
     fs::write(output, WaveJson::from(vcd).to_json()).unwrap();
 }
