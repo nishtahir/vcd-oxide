@@ -1,0 +1,348 @@
+$date
+	Fri Jan 27 10:13:28 2023
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module UartTxTest $end
+$var wire 1 ! uart_tx $end
+$var reg 1 " clk $end
+$var reg 8 # data [7:0] $end
+$var reg 1 $ reset $end
+$var reg 1 % send $end
+$scope module uut $end
+$var wire 1 " clk $end
+$var wire 8 & data [7:0] $end
+$var wire 1 $ rst $end
+$var wire 1 % send $end
+$var wire 1 ' busy $end
+$var parameter 32 ( BAUD $end
+$var parameter 32 ) CLK_FREQUENCY_HZ $end
+$var parameter 32 * MAX_BAUD_COUNTER $end
+$var reg 5 + baud_counter [4:0] $end
+$var reg 4 , bit_counter [3:0] $end
+$var reg 1 - clear $end
+$var reg 1 . load $end
+$var reg 2 / next_state [1:0] $end
+$var reg 1 0 shift $end
+$var reg 10 1 sr_register [9:0] $end
+$var reg 2 2 state [1:0] $end
+$var reg 1 ! uart_tx $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b1010 *
+b1100100 )
+b1010 (
+$end
+#0
+$dumpvars
+b0 2
+b0 1
+x0
+bx /
+x.
+x-
+b0 ,
+b0 +
+0'
+b10101010 &
+0%
+0$
+b10101010 #
+0"
+x!
+$end
+#1
+b1 +
+b0 /
+1!
+0-
+00
+0.
+1"
+#2
+0"
+1$
+#3
+b0 +
+1"
+#4
+0"
+0$
+#5
+b1 +
+1"
+#6
+0"
+1%
+#7
+1.
+b1 /
+b10 +
+1"
+#8
+0"
+0%
+#9
+b11 +
+b0 /
+0.
+1"
+#10
+0"
+#11
+b100 +
+1"
+#12
+0"
+#13
+b101 +
+1"
+#14
+0"
+#15
+b110 +
+1"
+#16
+0"
+#17
+b111 +
+1"
+#18
+0"
+#19
+b1000 +
+1"
+#20
+0"
+#21
+b1001 +
+1"
+#22
+0"
+#23
+b1010 +
+1"
+#24
+0"
+#25
+b0 +
+1"
+#26
+0"
+#27
+b1 +
+1"
+#28
+0"
+#29
+b10 +
+1"
+#30
+0"
+#31
+b11 +
+1"
+#32
+0"
+#33
+b100 +
+1"
+#34
+0"
+#35
+b101 +
+1"
+#36
+0"
+#37
+b110 +
+1"
+#38
+0"
+#39
+b111 +
+1"
+#40
+0"
+#41
+b1000 +
+1"
+#42
+0"
+#43
+b1001 +
+1"
+#44
+0"
+#45
+b1010 +
+1"
+#46
+0"
+#47
+b0 +
+1"
+#48
+0"
+#49
+b1 +
+1"
+#50
+0"
+#51
+b10 +
+1"
+#52
+0"
+#53
+b11 +
+1"
+#54
+0"
+#55
+b100 +
+1"
+#56
+0"
+#57
+b101 +
+1"
+#58
+0"
+#59
+b110 +
+1"
+#60
+0"
+#61
+b111 +
+1"
+#62
+0"
+#63
+b1000 +
+1"
+#64
+0"
+#65
+b1001 +
+1"
+#66
+0"
+#67
+b1010 +
+1"
+#68
+0"
+#69
+b0 +
+1"
+#70
+0"
+#71
+b1 +
+1"
+#72
+0"
+#73
+b10 +
+1"
+#74
+0"
+#75
+b11 +
+1"
+#76
+0"
+#77
+b100 +
+1"
+#78
+0"
+#79
+b101 +
+1"
+#80
+0"
+#81
+b110 +
+1"
+#82
+0"
+#83
+b111 +
+1"
+#84
+0"
+#85
+b1000 +
+1"
+#86
+0"
+#87
+b1001 +
+1"
+#88
+0"
+#89
+b1010 +
+1"
+#90
+0"
+#91
+b0 +
+1"
+#92
+0"
+#93
+b1 +
+1"
+#94
+0"
+#95
+b10 +
+1"
+#96
+0"
+#97
+b11 +
+1"
+#98
+0"
+#99
+b100 +
+1"
+#100
+0"
+#101
+b101 +
+1"
+#102
+0"
+#103
+b110 +
+1"
+#104
+0"
+#105
+b111 +
+1"
+#106
+0"
+#107
+b1000 +
+1"
+#108
+0"
+#109
+b1001 +
+1"
+#110
+0"

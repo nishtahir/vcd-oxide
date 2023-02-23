@@ -1,4 +1,4 @@
-use std::{str::FromStr};
+use std::str::FromStr;
 
 use serde::{Deserialize, Serialize};
 use vcd_oxide_parser::{ValueChangeDump, ValueChangeDumpWave};
@@ -19,7 +19,7 @@ pub struct WaveJsonSignal {
     pub name: Option<String>,
     pub wave: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub data: Option<String>,
+    pub data: Option<Vec<String>>,
 }
 
 #[derive(Default, Debug, Clone, Eq, PartialEq, Serialize, Deserialize)]
@@ -43,11 +43,8 @@ impl From<ValueChangeDump> for WaveJson {
 
         for sig in vcd_signals {
             let raw_wave = vcd.wave_map.get(&sig.identifier).unwrap();
-            wavejson_signals.push(WaveJsonSignal {
-                name: Some(sig.reference),
-                wave: Some(vcd_wave_to_string(raw_wave, max_value_change_len)),
-                data: None,
-            });
+            let wave = vcd_wave_to_wavejson_signal(sig, raw_wave, max_value_change_len);
+            wavejson_signals.push(wave);
         }
 
         WaveJson {
@@ -58,20 +55,26 @@ impl From<ValueChangeDump> for WaveJson {
     }
 }
 
-fn vcd_wave_to_string(sig: &ValueChangeDumpWave, max_len: usize) -> String {
+fn vcd_wave_to_wavejson_signal(
+    sig: vcd_oxide_parser::ValueChangeDumpSignal,
+    wave: &ValueChangeDumpWave,
+    max_value_change_len: usize,
+) -> WaveJsonSignal {
     let mut result = String::from_str("").unwrap();
-    let mut signal_iter = sig.value_changes.iter().peekable();
+    let mut signal_iter = wave.value_changes.iter().peekable();
+    let mut data = vec![];
     while let Some(value_change) = signal_iter.next() {
         let mut repeat = 0;
         if let Some(next) = signal_iter.peek() {
             repeat = next.time - value_change.time;
         }
-        
-        match value_change.value.as_str() {
-            "0" | "b0" => {
+
+        let value = value_change.value.as_str();
+        match value {
+            "0" => {
                 result += "l";
             }
-            "1" | "b1" => {
+            "1" => {
                 result += "h";
             }
             "x" => {
@@ -80,14 +83,22 @@ fn vcd_wave_to_string(sig: &ValueChangeDumpWave, max_len: usize) -> String {
             "z" => {
                 result += "z";
             }
-            _ => unimplemented!("{}", value_change.value),
+            _ => {
+                result += "=";
+                data.push(value.to_owned());
+            }
         };
         if repeat > 1 {
             result += &".".repeat(repeat - 1);
         }
     }
 
-    format!("{:.<width$}", result, width = max_len)
+    let wave = format!("{:.<width$}", result, width = max_value_change_len);
+    WaveJsonSignal {
+        name: Some(sig.reference),
+        wave: Some(wave),
+        data: Some(data),
+    }
 }
 
 impl WaveJson {
