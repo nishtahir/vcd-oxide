@@ -5,18 +5,26 @@ use vcd_oxide_wavejson::WaveJson;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about)]
-#[command(arg_required_else_help(true))]
+// #[command(arg_required_else_help(true))]
 struct Args {
-    input: PathBuf,
+    file: PathBuf,
+    #[arg(short, long, help = "Expand busses into individual signals", default_value = "false")]
+    expand_busses: bool,
 }
 
-fn main() {
+fn main() -> Result<(), std::io::Error> {
     let args = Args::parse();
-    println!("Input file: {:?}", args.input);
-    let content = fs::read_to_string(&args.input).unwrap();
+    let Args {
+        file,
+        expand_busses,
+    } = args;
+    let content = fs::read_to_string(&file).unwrap();
     let vcd = ValueChangeDump::parse(&content);
 
-    let mut output = args.input;
-    output.set_extension("json");
-    fs::write(output, WaveJson::from(vcd).to_json()).unwrap();
+    let mut output_path = file.clone();
+    output_path.set_extension("json");
+
+    let wave = WaveJson::from_vcd(vcd, expand_busses);
+    let json = wave.to_json();
+    fs::write(output_path, json)
 }
