@@ -93,8 +93,11 @@ fn vcd_wave_to_wavejson_group(
             }
 
             // pad the value with leading zeros to the signal size
-            let value = &format!("{:0>width$}", value, width = sig.size)[i..i + 1];
-            map_signal_value_to_wavejson_value(value, repeat, &mut result);
+            let value = format!("{:0>width$}", value, width = sig.size);
+
+            let bit_index = sig.size - i - 1;
+            let bit_value = &value[bit_index..bit_index + 1];
+            map_signal_value_to_wavejson_value(bit_value, repeat, &mut result);
         }
         let wave = format!("{:.<width$}", result, width = max_value_change_len);
         signals.push(WaveJsonSignal {

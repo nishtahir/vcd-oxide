@@ -1,2 +1,5 @@
 /target
 .idea/
+*.json
+*.vvp
+simulations/*.vcd
