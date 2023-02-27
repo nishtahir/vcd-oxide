@@ -21,7 +21,7 @@ fn main() -> Result<(), std::io::Error> {
     let content = fs::read_to_string(&file).unwrap();
     let vcd = ValueChangeDump::parse(&content);
 
-    let mut output_path = file.clone();
+    let mut output_path = file;
     output_path.set_extension("json");
 
     let wave = WaveJson::from_vcd(vcd, expand_busses);
